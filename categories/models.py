@@ -14,6 +14,5 @@ class Category(models.Model):
     description = models.TextField()
     skills = models.ManyToManyField(
         "skills.Skill",
-        on_delete=models.CASCADE,
         related_name="categories",
     )
