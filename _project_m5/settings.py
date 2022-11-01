@@ -44,7 +44,7 @@ THIRD_PARTY_APPS = ["rest_framework", "rest_framework.authtoken"]
 MY_APPS = [
     "accounts",
     "characters",
-    "classes",
+    "categories",
     "skills",
     "inventories",
     "weapons",
