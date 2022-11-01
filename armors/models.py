@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 import uuid
 
+
 class Armor(models.Model):
     class CategoryChoice(models.TextChoices):
         WIZ = "1", "Wizard"
@@ -12,4 +13,5 @@ class Armor(models.Model):
     name = models.CharField(max_length=50)
     damage = models.IntegerField(validator=[MinValueValidator(0)])
     category = models.CharField(choices=CategoryChoice.choices)
-    inventory = models.ManyToManyField("inventories.Inventory", related_name="armors")
+    inventory = models.ManyToManyField(
+        "inventories.Inventory", related_name="armors")
