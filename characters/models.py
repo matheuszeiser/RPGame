@@ -12,14 +12,14 @@ class Character(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
 
     account = models.ForeignKey(
-        "accounts.Account", on_delete=models.CASCADE, related_name="Character"
+        "accounts.Account", on_delete=models.CASCADE, related_name="characters"
     )
     inventory = models.OneToOneField(
-        "inventories.Inventory", on_delete=models.CASCADE, related_name="Character"
+        "inventories.Inventory", on_delete=models.CASCADE, related_name="character"
     )
     category = models.ForeignKey(
-        "categories.Category", on_delete=models.CASCADE, related_name="Character"
+        "categories.Category", on_delete=models.CASCADE, related_name="characters"
     )
     atributes = models.OneToOneField(
-        "attributes.Attribute", on_delete=models.CASCADE, related_name="Character"
+        "attributes.Attribute", on_delete=models.CASCADE, related_name="character"
     )
