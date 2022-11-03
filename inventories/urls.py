@@ -1,4 +1,6 @@
 from django.urls import path
 from . import views
 
-urlpatterns = []
+urlpatterns = [
+    path("char/<pk>/inventory/", views.RetrieveInventoryView.as_view()),
+]
