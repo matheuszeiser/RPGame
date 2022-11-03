@@ -19,4 +19,11 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("accounts.urls")),
+    path("api/", include("categories.urls")),
+    path("api/", include("armors.urls")),
+    path("api/", include("weapons.urls")),
+    path("api/", include("attributes.urls")),
+    path("api/", include("characters.urls")),
+    path("api/", include("inventories.urls")),
+    path("api/", include("skills.urls")),
 ]
