@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAdminUser
 
 from accounts.models import Account
 from accounts.permissions import IsAccountOwner
-from accounts.serializers import AccountSerializer
+from accounts.serializers import AccountSerializer, ActivateDeactivateAccountSerializer
 
 
 class CreateAccountView(generics.CreateAPIView):
@@ -31,3 +31,11 @@ class AdminListAccountsView(generics.ListAPIView):
 
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
+
+
+class AdminActivateDeactivateAccountView(generics.UpdateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
+    queryset = Account.objects.all()
+    serializer_class = ActivateDeactivateAccountSerializer
