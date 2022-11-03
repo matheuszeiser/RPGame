@@ -29,3 +29,29 @@ class AccountSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Account.objects.create_user(**validated_data)
+
+
+class ActivateDeactivateAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+
+        fields = [
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "is_superuser",
+            "is_active",
+            "date_joined",
+        ]
+
+        read_only_fields = [
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "is_superuser",
+            "date_joined",
+        ]
