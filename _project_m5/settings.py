@@ -9,8 +9,14 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
 from pathlib import Path
+
+import os
+import dotenv
+import dj_database_url
+
+dotenv.load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-w7+@q)zfaw(gz5@0d(_=eo*+sl_v7th24%ct@5w*2o)k-j=ubm"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,7 +45,11 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["rest_framework", "rest_framework.authtoken"]
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "rest_framework.authtoken",
+    "drf_spectacular",
+]
 
 MY_APPS = [
     "accounts",
@@ -49,7 +59,7 @@ MY_APPS = [
     "inventories",
     "weapons",
     "armors",
-    "attributes"
+    "attributes",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
@@ -90,10 +100,32 @@ WSGI_APPLICATION = "_project_m5.wsgi.application"
 
 DATABASES = {
     "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": "127.0.0.1",
+        "PORT": 5432,
+        # Docker Compose
+        # "HOST": "db",
+        # "PORT": 5432,
+        # Porta de fora para o postgres do container
+        # "PORT": 5433,
+    },
+    "sqlite3": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
 }
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+
+if DATABASE_URL:
+    db_from_env = dj_database_url.config(default=DATABASE_URL)
+    DATABASES["default"].update(db_from_env)
+
+    DEBUG = False
 
 
 # Password validation
@@ -138,3 +170,14 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.Account"
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "RPGame",
+    "DESCRIPTION": "Aplicação para desenvolvimento de jogos rpg",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}

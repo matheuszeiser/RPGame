@@ -11,17 +11,28 @@ class Character(models.Model):
     level = models.PositiveIntegerField(default=1)
     health = models.PositiveIntegerField(default=100)
     created_at = models.DateTimeField(default=timezone.now)
-    category_name = models.CharField(max_length=20, choices=CategoriesName.choices)
+    category_name = models.CharField(
+        max_length=20,
+        choices=CategoriesName.choices,
+    )
 
     account = models.ForeignKey(
-        "accounts.Account", on_delete=models.CASCADE, related_name="characters"
+        "accounts.Account",
+        on_delete=models.CASCADE,
+        related_name="characters",
     )
     inventory = models.OneToOneField(
-        "inventories.Inventory", on_delete=models.CASCADE, related_name="character"
+        "inventories.Inventory",
+        on_delete=models.CASCADE,
+        related_name="character",
     )
     category = models.ForeignKey(
-        "categories.Category", on_delete=models.CASCADE, related_name="characters"
+        "categories.Category",
+        on_delete=models.CASCADE,
+        related_name="characters",
     )
     attributes = models.OneToOneField(
-        "attributes.Attribute", on_delete=models.CASCADE, related_name="character"
+        "attributes.Attribute",
+        on_delete=models.CASCADE,
+        related_name="character",
     )
