@@ -4,12 +4,19 @@ from django.utils import timezone
 import uuid
 
 
+class CategoryChoice(models.TextChoices):
+    WIZ = "1", "Wizard"
+    WAR = "Warrior"
+    ARC = "3", "Archer"
+
+
 class Character(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     nick_name = models.CharField(max_length=50, unique=True)
     level = models.PositiveIntegerField(default=1)
     health = models.PositiveIntegerField(default=100)
     created_at = models.DateTimeField(default=timezone.now)
+    category_name = models.CharField(max_length=20, choices=CategoryChoice.choices)
 
     account = models.ForeignKey(
         "accounts.Account", on_delete=models.CASCADE, related_name="characters"
@@ -20,6 +27,6 @@ class Character(models.Model):
     category = models.ForeignKey(
         "categories.Category", on_delete=models.CASCADE, related_name="characters"
     )
-    atributes = models.OneToOneField(
+    attributes = models.OneToOneField(
         "attributes.Attribute", on_delete=models.CASCADE, related_name="character"
     )

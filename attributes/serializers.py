@@ -6,4 +6,4 @@ class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute
 
-        fields = ["id", "strength", "agility", "intelligence", "enurance"]
+        fields = ["id", "strength", "agility", "intelligence", "endurance"]
