@@ -9,3 +9,5 @@ class Account(AbstractUser):
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
+
+    REQUIRED_FIELDS = ["first_name", "last_name"]
