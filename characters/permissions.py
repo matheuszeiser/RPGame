@@ -5,11 +5,5 @@ from rest_framework import permissions
 
 
 class IsCharOwnerOrSuperuser(permissions.BasePermission):
-    def has_object_permission(
-        self,
-        request: Request,
-        view: View,
-        obj,
-    ):
-        if request.user == obj.account or request.user.is_superuser:
-            return True
+    def has_object_permission(self, request: Request, view: View, obj):
+        return request.user == obj.account or request.user.is_superuser
