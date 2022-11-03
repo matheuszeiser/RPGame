@@ -9,3 +9,10 @@ class CreateCategoryView(generics.CreateAPIView):
 
     serializer_class = CategorySerializer
     queryset = Category.objects
+
+
+class UpdateDeleteCategoryView(generics.RetrieveUpdateDestroyAPIView):
+
+    serializer_class = CategorySerializer
+    queryset = Category.objects
+    pk = 'pk'
