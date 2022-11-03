@@ -3,8 +3,6 @@ from .models import Category
 from .serializers import CategorySerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser
-from skills.models import Skill
-import ipdb
 
 
 class CreateCategoryView(generics.CreateAPIView):
