@@ -2,12 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 import uuid
-
-
-class CategoryChoice(models.TextChoices):
-    WIZ = "1", "Wizard"
-    WAR = "Warrior"
-    ARC = "3", "Archer"
+from categories.models import CategoriesName
 
 
 class Character(models.Model):
@@ -16,7 +11,7 @@ class Character(models.Model):
     level = models.PositiveIntegerField(default=1)
     health = models.PositiveIntegerField(default=100)
     created_at = models.DateTimeField(default=timezone.now)
-    category_name = models.CharField(max_length=20, choices=CategoryChoice.choices)
+    category_name = models.CharField(max_length=20, choices=CategoriesName.choices)
 
     account = models.ForeignKey(
         "accounts.Account", on_delete=models.CASCADE, related_name="characters"
