@@ -7,12 +7,7 @@ class InventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
 
-        fields = [
-            "id",
-            "character",
-            "armors",
-            "weapons"
-        ]
+        fields = ["id", "character", "armors", "weapons"]
 
         read_only_fields = [
             "weapons",
@@ -20,3 +15,17 @@ class InventorySerializer(serializers.ModelSerializer):
         ]
         depth = 1
 
+
+class InventoryGeneralSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+
+        fields = [
+            "armors",
+            "weapons",
+        ]
+
+        read_only_fields = [
+            "weapons",
+            "armors",
+        ]

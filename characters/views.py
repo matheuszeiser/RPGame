@@ -1,6 +1,6 @@
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
-from .serializers import CharacterSerializer
+from .serializers import CharacterSerializer, CharacterEditSerializer
 from .models import Character
 from rest_framework.authentication import TokenAuthentication
 from inventories.models import Inventory
@@ -9,6 +9,7 @@ from attributes.models import Attribute
 from rest_framework.views import Response
 from rest_framework.views import status
 from rest_framework.permissions import IsAuthenticated
+from .permissions import IsCharOwnerOrSuperuser
 
 
 class CreateListCharacterView(generics.ListCreateAPIView):
@@ -41,3 +42,11 @@ class CreateListCharacterView(generics.ListCreateAPIView):
             account=self.request.user,
             inventory=inventory,
         )
+
+
+class RetrieveUpdateDeleteCharView(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsCharOwnerOrSuperuser]
+
+    serializer_class = CharacterEditSerializer
+    queryset = Character.objects

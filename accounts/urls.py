@@ -7,4 +7,6 @@ urlpatterns = [
     path("accounts/", views.CreateAccountView.as_view()),
     path("accounts/login/", ObtainAuthToken.as_view()),
     path("accounts/<pk>/", views.RetrieveUpdateDestroyView.as_view()),
+    path("admin/accounts/", views.AdminListAccountsView.as_view()),
+    path("admin/accounts/<pk>/", views.AdminActivateDeactivateAccountView.as_view()),
 ]
