@@ -18,3 +18,11 @@ class CharacterSerializer(serializers.ModelSerializer):
     attributes = AttributeSerializer(read_only=True)
 
 
+class CharacterEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Character
+        fields = "__all__"
+        read_only_fields = ["category_name"]
+    category = CreateCategorySerializer(read_only=True)
+    account = AccountSerializer(read_only=True)
+    attributes = AttributeSerializer(read_only=True)
