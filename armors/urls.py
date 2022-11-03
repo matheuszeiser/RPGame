@@ -1,4 +1,7 @@
 from django.urls import path
-from . import views
 
-urlpatterns = []
+from armors import views
+
+urlpatterns = [
+    path("admin/armor/", views.CreateListArmorView.as_view()),
+]
