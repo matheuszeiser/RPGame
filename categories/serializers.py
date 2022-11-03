@@ -11,8 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
             "name",
             "description",
         ]
-        extra_kwargs = {"skills": {"allow_null": True}}
-        read_only_fields = ["id"]
+        extra_kwargs = {"skills": {"read_only": True}}
 
 
 class CreateCategorySerializer(serializers.ModelSerializer):
