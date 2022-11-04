@@ -3,19 +3,20 @@ from weapons.models import Weapon
 
 from weapons.serializer import WeaponSerializer
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAdminUser
+from categories.permissions import IsAdminOrReadOnly
+
 
 class WeaponAdminView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminOrReadOnly]
 
     serializer_class = WeaponSerializer
     queryset = Weapon.objects
 
 
-class WeaponDetailView(generics.UpdateAPIView, generics.DestroyAPIView):
+class WeaponDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminOrReadOnly]
 
     serializer_class = WeaponSerializer
     queryset = Weapon.objects
