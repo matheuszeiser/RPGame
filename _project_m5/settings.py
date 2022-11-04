@@ -104,13 +104,13 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_DB"),
         "USER": os.getenv("POSTGRES_USER"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": "127.0.0.1",
-        "PORT": 5432,
-        # Docker Compose
-        # "HOST": "db",
+        # Sem docker
+        # "HOST": "127.0.0.1",
         # "PORT": 5432,
-        # Porta de fora para o postgres do container
-        # "PORT": 5433,
+
+        # Docker Compose
+        "HOST": "db",
+        "PORT": 5432,
     },
     "sqlite3": {
         "ENGINE": "django.db.backends.sqlite3",
