@@ -1,5 +1,5 @@
 from rest_framework import generics
-from django.shortcuts import get_object_or_404
+from utils.utils import get_object_or_404_with_message
 from armors.models import Armor
 
 from weapons.models import Weapon
@@ -35,7 +35,9 @@ class CreateListCharacterView(generics.ListCreateAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        category = get_object_or_404(Category, name=category_name)
+        category = get_object_or_404_with_message(
+            Category, name=category_name, msg="Category not found"
+        )
         inventory = Inventory.objects.create()
 
         serializer.save(
@@ -55,20 +57,18 @@ class RetrieveUpdateDeleteCharView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class AddWeaponInInventoryView(APIView):
-
     def patch(self, request, char_id, weapon_id):
-        character = get_object_or_404(Character, id=char_id)
-        weapon = get_object_or_404(Weapon, id=weapon_id)
+        character = get_object_or_404_with_message(Character, id=char_id, msg="Character not found")
+        weapon = get_object_or_404_with_message(Weapon, id=weapon_id, msg="Weapon not found")
         character.inventory.weapons.add(weapon)
 
-        return Response({'sucess': 'Weapon added'}, status.HTTP_200_OK)
+        return Response({"sucess": "Weapon added"}, status.HTTP_200_OK)
 
 
 class AddArmorInInventoryView(APIView):
-
     def patch(self, request, char_id, armor_id):
-        character = get_object_or_404(Character, id=char_id)
-        armor = get_object_or_404(Armor, id=armor_id)
+        character = get_object_or_404_with_message(Character, id=char_id, msg="Character not found")
+        armor = get_object_or_404_with_message(Armor, id=armor_id, msg="Armor not found")
         character.inventory.armors.add(armor)
 
-        return Response({'sucess': 'Armor added'}, status.HTTP_200_OK)
+        return Response({"sucess": "Armor added"}, status.HTTP_200_OK)

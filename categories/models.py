@@ -10,6 +10,6 @@ class CategoriesName(models.TextChoices):
 
 class Category(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    name = models.CharField(max_length=15, choices=CategoriesName.choices)
+    name = models.CharField(max_length=15, choices=CategoriesName.choices, unique=True)
     description = models.TextField()
     skills = models.ManyToManyField("skills.Skill", related_name="categories")

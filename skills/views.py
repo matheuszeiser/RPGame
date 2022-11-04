@@ -1,5 +1,5 @@
 from rest_framework import generics
-from django.shortcuts import get_object_or_404
+from utils.utils import get_object_or_404_with_message
 from categories.models import Category
 from skills.models import Skill
 
@@ -16,7 +16,9 @@ class CreateSkillView(generics.CreateAPIView):
     queryset = Skill.objects
 
     def perform_create(self, serializer):
-        category = get_object_or_404(Category, id=self.kwargs['pk'])
+        category = get_object_or_404_with_message(
+            Category, id=self.kwargs["pk"], msg="Category not found"
+        )
         skill = serializer.save()
         category.skills.add(skill)
 
@@ -27,11 +29,11 @@ class ListUpdateDeleteSkillView(generics.RetrieveUpdateDestroyAPIView):
 
     serializer_class = SkillSerializer
     queryset = Skill.objects
-    pk = 'pk'
+    pk = "pk"
 
 
 class ListSkillsPerCategoryView(generics.RetrieveAPIView):
     serializer_class = ListSkillsSerializer
 
     def get_queryset(self):
-        return Category.objects.filter(id=self.kwargs['pk'])
+        return Category.objects.filter(id=self.kwargs["pk"])

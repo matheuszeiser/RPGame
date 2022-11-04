@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Character
-from django.shortcuts import get_object_or_404
 from categories.serializers import CreateCategorySerializer
 from attributes.serializers import AttributeSerializer
 from accounts.serializers import AccountSerializer
