@@ -30,6 +30,17 @@ class AccountSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return Account.objects.create_user(**validated_data)
 
+    def update(self, instance: Account, validated_data: dict):
+
+        for key, value in validated_data.items():
+
+            if key == "password":
+                instance.set_password(value)
+            else:
+                setattr(instance, key, value)
+        instance.save()
+        return instance
+
 
 class ActivateDeactivateAccountSerializer(serializers.ModelSerializer):
     class Meta:
