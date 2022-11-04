@@ -6,7 +6,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser
 
 
-class CreateCategoryView(generics.CreateAPIView):
+class CreateCategoryView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
@@ -18,9 +18,4 @@ class UpdateDeleteCategoryView(generics.RetrieveUpdateDestroyAPIView):
 
     serializer_class = CategorySerializer
     queryset = Category.objects
-    pk = 'pk'
-
-
-class ListCategoriesView(generics.ListAPIView):
-    serializer_class = CategorySerializer
-    queryset = Category.objects
+    pk = "pk"
