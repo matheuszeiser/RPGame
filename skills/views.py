@@ -22,6 +22,8 @@ class CreateSkillView(generics.CreateAPIView):
 
 
 class ListUpdateDeleteSkillView(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     serializer_class = SkillSerializer
     queryset = Skill.objects
