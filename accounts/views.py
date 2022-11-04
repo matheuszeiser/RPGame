@@ -33,7 +33,7 @@ class AdminListAccountsView(generics.ListAPIView):
     serializer_class = AccountSerializer
 
 
-class AdminActivateDeactivateAccountView(generics.UpdateAPIView):
+class AdminActivateDeleteAccountView(generics.DestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
