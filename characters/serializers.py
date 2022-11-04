@@ -13,6 +13,7 @@ class CharacterSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
         read_only_fields = ["created_at", "account", "inventory", "attributes"]
+        extra_kwargs = {"category_name": {"write_only": True}}
 
     category = CreateCategorySerializer(read_only=True)
     account = AccountSerializer(read_only=True)

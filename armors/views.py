@@ -11,3 +11,13 @@ class ArmorDetailView(generics.UpdateAPIView, generics.DestroyAPIView):
 
     serializer_class = [ArmorSerializer]
     queryset = Armor.objects
+
+from armors.serializer import ArmorSerializer
+
+
+class CreateListArmorView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
+    queryset = Armor.objects.all()
+    serializer_class = ArmorSerializer
