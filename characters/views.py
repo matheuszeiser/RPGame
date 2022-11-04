@@ -1,13 +1,15 @@
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
+from armors.models import Armor
+
+from weapons.models import Weapon
 from .serializers import CharacterSerializer, CharacterEditSerializer
 from .models import Character
 from rest_framework.authentication import TokenAuthentication
 from inventories.models import Inventory
 from categories.models import Category
 from attributes.models import Attribute
-from rest_framework.views import Response
-from rest_framework.views import status
+from rest_framework.views import Response, status, APIView
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsCharOwnerOrSuperuser
 
@@ -50,3 +52,23 @@ class RetrieveUpdateDeleteCharView(generics.RetrieveUpdateDestroyAPIView):
 
     serializer_class = CharacterEditSerializer
     queryset = Character.objects
+
+
+class AddWeaponInInventoryView(APIView):
+
+    def patch(self, request, char_id, weapon_id):
+        character = get_object_or_404(Character, id=char_id)
+        weapon = get_object_or_404(Weapon, id=weapon_id)
+        character.inventory.weapons.add(weapon)
+
+        return Response({'sucess': 'Weapon added'}, status.HTTP_200_OK)
+
+
+class AddArmorInInventoryView(APIView):
+
+    def patch(self, request, char_id, armor_id):
+        character = get_object_or_404(Character, id=char_id)
+        armor = get_object_or_404(Armor, id=armor_id)
+        character.inventory.armors.add(armor)
+
+        return Response({'sucess': 'Armor added'}, status.HTTP_200_OK)
