@@ -4,9 +4,13 @@ from categories.models import Category
 from skills.models import Skill
 
 from skills.serializers import ListSkillsSerializer, SkillSerializer
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAdminUser
 
 
 class CreateSkillView(generics.CreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     serializer_class = SkillSerializer
     queryset = Skill.objects
