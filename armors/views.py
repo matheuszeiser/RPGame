@@ -11,8 +11,8 @@ class ArmorDetailView(generics.UpdateAPIView, generics.DestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminOrReadOnly]
 
-    serializer_class = [ArmorSerializer]
     queryset = Armor.objects
+    serializer_class = ArmorSerializer
 
 
 class CreateListArmorView(generics.ListCreateAPIView):
