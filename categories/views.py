@@ -20,7 +20,3 @@ class UpdateDeleteCategoryView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects
     pk = 'pk'
 
-
-class ListCategoriesView(generics.ListAPIView):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
