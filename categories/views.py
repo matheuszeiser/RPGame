@@ -3,12 +3,12 @@ from .models import Category
 from .serializers import CategorySerializer
 from skills.models import Skill
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAdminUser
+from .permissions import IsAdminOrReadOnly
 
 
-class CreateCategoryView(generics.CreateAPIView):
+class CreateCategoryView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminOrReadOnly]
 
     serializer_class = CategorySerializer
     queryset = Category.objects
@@ -23,4 +23,4 @@ class UpdateDeleteCategoryView(generics.RetrieveUpdateDestroyAPIView):
 
 class ListCategoriesView(generics.ListAPIView):
     serializer_class = CategorySerializer
-    queryset = Category.objects
+    queryset = Category.objects.all()
