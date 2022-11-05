@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["project-rpgame.herokuapp.com", "localhost"]
 
 
 # Application definition
@@ -107,7 +107,6 @@ DATABASES = {
         # Sem docker
         # "HOST": "127.0.0.1",
         # "PORT": 5432,
-
         # Docker Compose
         "HOST": "db",
         "PORT": 5432,
