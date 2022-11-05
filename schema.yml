@@ -1,0 +1,992 @@
+openapi: 3.0.3
+info:
+  title: RPGame
+  version: 1.0.0
+  description: Aplicação para desenvolvimento de jogos rpg
+paths:
+  /api/accounts/:
+    post:
+      operationId: api_accounts_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Account'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+  /api/accounts/{id}/:
+    get:
+      operationId: api_accounts_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+    put:
+      operationId: api_accounts_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Account'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+    patch:
+      operationId: api_accounts_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAccount'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+    delete:
+      operationId: api_accounts_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/accounts/login/:
+    post:
+      operationId: api_accounts_login_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
+  /api/admin/accounts/:
+    get:
+      operationId: api_admin_accounts_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+          description: ''
+  /api/admin/accounts/{id}/:
+    put:
+      operationId: api_admin_accounts_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateDeactivateAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivateDeactivateAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActivateDeactivateAccount'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivateDeactivateAccount'
+          description: ''
+    patch:
+      operationId: api_admin_accounts_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedActivateDeactivateAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedActivateDeactivateAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedActivateDeactivateAccount'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivateDeactivateAccount'
+          description: ''
+  /api/admin/categories/:
+    post:
+      operationId: api_admin_categories_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+  /api/admin/weapon/:
+    get:
+      operationId: api_admin_weapon_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Weapon'
+          description: ''
+    post:
+      operationId: api_admin_weapon_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Weapon'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Weapon'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Weapon'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Weapon'
+          description: ''
+  /api/admin/weapon/{weapon_id}/:
+    put:
+      operationId: api_admin_weapon_update
+      parameters:
+      - in: path
+        name: weapon_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this weapon.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Weapon'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Weapon'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Weapon'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Weapon'
+          description: ''
+    patch:
+      operationId: api_admin_weapon_partial_update
+      parameters:
+      - in: path
+        name: weapon_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this weapon.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedWeapon'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedWeapon'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedWeapon'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Weapon'
+          description: ''
+    delete:
+      operationId: api_admin_weapon_destroy
+      parameters:
+      - in: path
+        name: weapon_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this weapon.
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/char/:
+    get:
+      operationId: api_char_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+          description: ''
+    post:
+      operationId: api_char_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Character'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Character'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+          description: ''
+  /api/char/{id}/:
+    get:
+      operationId: api_char_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this character.
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterEdit'
+          description: ''
+    put:
+      operationId: api_char_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this character.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CharacterEdit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CharacterEdit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CharacterEdit'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterEdit'
+          description: ''
+    patch:
+      operationId: api_char_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this character.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCharacterEdit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCharacterEdit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCharacterEdit'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterEdit'
+          description: ''
+    delete:
+      operationId: api_char_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this character.
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        is_superuser:
+          type: boolean
+          readOnly: true
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        is_active:
+          type: boolean
+          readOnly: true
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_joined
+      - email
+      - first_name
+      - id
+      - is_active
+      - is_superuser
+      - last_name
+      - password
+      - username
+    ActivateDeactivateAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        email:
+          type: string
+          format: email
+          readOnly: true
+        first_name:
+          type: string
+          readOnly: true
+        last_name:
+          type: string
+          readOnly: true
+        is_superuser:
+          type: boolean
+          readOnly: true
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_joined
+      - email
+      - first_name
+      - id
+      - is_superuser
+      - last_name
+      - username
+    Attribute:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        strength:
+          type: integer
+          nullable: true
+        agility:
+          type: integer
+          nullable: true
+        intelligence:
+          type: integer
+          nullable: true
+        endurance:
+          type: integer
+          nullable: true
+      required:
+      - id
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - token
+      - username
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          $ref: '#/components/schemas/CategoryEnum'
+        description:
+          type: string
+      required:
+      - description
+      - id
+      - name
+    CategoryEnum:
+      enum:
+      - Warrior
+      - Wizard
+      - Archer
+      type: string
+    Character:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        category:
+          allOf:
+          - $ref: '#/components/schemas/CreateCategory'
+          readOnly: true
+        account:
+          allOf:
+          - $ref: '#/components/schemas/Account'
+          readOnly: true
+        attributes:
+          allOf:
+          - $ref: '#/components/schemas/Attribute'
+          readOnly: true
+        nick_name:
+          type: string
+          maxLength: 50
+        level:
+          type: integer
+        health:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        category_name:
+          $ref: '#/components/schemas/CategoryEnum'
+        inventory:
+          type: string
+          format: uuid
+          readOnly: true
+      required:
+      - account
+      - attributes
+      - category
+      - category_name
+      - created_at
+      - id
+      - inventory
+      - nick_name
+    CharacterEdit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        category:
+          allOf:
+          - $ref: '#/components/schemas/CreateCategory'
+          readOnly: true
+        account:
+          allOf:
+          - $ref: '#/components/schemas/Account'
+          readOnly: true
+        attributes:
+          allOf:
+          - $ref: '#/components/schemas/Attribute'
+          readOnly: true
+        inventory:
+          allOf:
+          - $ref: '#/components/schemas/InventoryGeneral'
+          readOnly: true
+        nick_name:
+          type: string
+          maxLength: 50
+        level:
+          type: integer
+        health:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        category_name:
+          allOf:
+          - $ref: '#/components/schemas/CategoryEnum'
+          readOnly: true
+      required:
+      - account
+      - attributes
+      - category
+      - category_name
+      - id
+      - inventory
+      - nick_name
+    CreateCategory:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/CategoryEnum'
+      required:
+      - name
+    InventoryGeneral:
+      type: object
+      properties:
+        armors:
+          type: array
+          items:
+            type: string
+            format: uuid
+          readOnly: true
+        weapons:
+          type: array
+          items:
+            type: string
+            format: uuid
+          readOnly: true
+      required:
+      - armors
+      - weapons
+    PatchedAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        is_superuser:
+          type: boolean
+          readOnly: true
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        is_active:
+          type: boolean
+          readOnly: true
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedActivateDeactivateAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        email:
+          type: string
+          format: email
+          readOnly: true
+        first_name:
+          type: string
+          readOnly: true
+        last_name:
+          type: string
+          readOnly: true
+        is_superuser:
+          type: boolean
+          readOnly: true
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedCharacterEdit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        category:
+          allOf:
+          - $ref: '#/components/schemas/CreateCategory'
+          readOnly: true
+        account:
+          allOf:
+          - $ref: '#/components/schemas/Account'
+          readOnly: true
+        attributes:
+          allOf:
+          - $ref: '#/components/schemas/Attribute'
+          readOnly: true
+        inventory:
+          allOf:
+          - $ref: '#/components/schemas/InventoryGeneral'
+          readOnly: true
+        nick_name:
+          type: string
+          maxLength: 50
+        level:
+          type: integer
+        health:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        category_name:
+          allOf:
+          - $ref: '#/components/schemas/CategoryEnum'
+          readOnly: true
+    PatchedWeapon:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        damage:
+          type: integer
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        inventory:
+          type: array
+          items:
+            type: string
+            format: uuid
+          readOnly: true
+    Weapon:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        damage:
+          type: integer
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        inventory:
+          type: array
+          items:
+            type: string
+            format: uuid
+          readOnly: true
+      required:
+      - category
+      - damage
+      - id
+      - inventory
+      - name
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
