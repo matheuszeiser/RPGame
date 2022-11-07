@@ -107,6 +107,7 @@ DATABASES = {
         # Sem docker
         "HOST": "127.0.0.1",
         # "PORT": 5432,
+
         # Docker Compose
         # "HOST": "db",
         "PORT": 5432,
