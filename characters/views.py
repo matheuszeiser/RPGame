@@ -19,7 +19,9 @@ class CreateListCharacterView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     serializer_class = CharacterSerializer
-    queryset = Character.objects
+
+    def get_queryset(self):
+        return Character.objects.filter(account=self.request.user)
 
     def perform_create(self, serializer):
         category_name = self.request.data["category_name"]
@@ -58,8 +60,12 @@ class RetrieveUpdateDeleteCharView(generics.RetrieveUpdateDestroyAPIView):
 
 class AddWeaponInInventoryView(APIView):
     def patch(self, request, char_id, weapon_id):
-        character = get_object_or_404_with_message(Character, id=char_id, msg="Character not found")
-        weapon = get_object_or_404_with_message(Weapon, id=weapon_id, msg="Weapon not found")
+        character = get_object_or_404_with_message(
+            Character, id=char_id, msg="Character not found"
+        )
+        weapon = get_object_or_404_with_message(
+            Weapon, id=weapon_id, msg="Weapon not found"
+        )
         character.inventory.weapons.add(weapon)
 
         return Response({"sucess": "Weapon added"}, status.HTTP_200_OK)
@@ -67,8 +73,12 @@ class AddWeaponInInventoryView(APIView):
 
 class AddArmorInInventoryView(APIView):
     def patch(self, request, char_id, armor_id):
-        character = get_object_or_404_with_message(Character, id=char_id, msg="Character not found")
-        armor = get_object_or_404_with_message(Armor, id=armor_id, msg="Armor not found")
+        character = get_object_or_404_with_message(
+            Character, id=char_id, msg="Character not found"
+        )
+        armor = get_object_or_404_with_message(
+            Armor, id=armor_id, msg="Armor not found"
+        )
         character.inventory.armors.add(armor)
 
         return Response({"sucess": "Armor added"}, status.HTTP_200_OK)
