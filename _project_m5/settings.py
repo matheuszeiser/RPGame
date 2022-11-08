@@ -105,10 +105,11 @@ DATABASES = {
         "USER": os.getenv("POSTGRES_USER"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
         # Sem docker
-        # "HOST": "127.0.0.1",
+        "HOST": "127.0.0.1",
         # "PORT": 5432,
+
         # Docker Compose
-        "HOST": "db",
+        # "HOST": "db",
         "PORT": 5432,
     },
     "sqlite3": {
