@@ -1,17 +1,18 @@
 from rest_framework import generics
-from utils.utils import get_object_or_404_with_message
-from armors.models import Armor
-
-from weapons.models import Weapon
-from .serializers import CharacterSerializer, CharacterEditSerializer
-from .models import Character
 from rest_framework.authentication import TokenAuthentication
-from inventories.models import Inventory
-from categories.models import Category
-from attributes.models import Attribute
-from rest_framework.views import Response, status, APIView
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsCharOwnerOrSuperuser
+from rest_framework.views import APIView, Response, status
+
+from armors.models import Armor
+from attributes.models import Attribute
+from categories.models import Category
+from inventories.models import Inventory
+from utils.utils import get_object_or_404_with_message
+from weapons.models import Weapon
+
+from .models import Character
+from .permissions import IsCharOwner, IsCharOwnerOrSuperuser
+from .serializers import CharacterEditSerializer, CharacterSerializer
 
 
 class CreateListCharacterView(generics.ListCreateAPIView):
@@ -59,6 +60,9 @@ class RetrieveUpdateDeleteCharView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class AddWeaponInInventoryView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsCharOwner]
+
     def patch(self, request, char_id, weapon_id):
         character = get_object_or_404_with_message(
             Character, id=char_id, msg="Character not found"
@@ -66,12 +70,22 @@ class AddWeaponInInventoryView(APIView):
         weapon = get_object_or_404_with_message(
             Weapon, id=weapon_id, msg="Weapon not found"
         )
+        self.check_object_permissions(request, character)
+        if character.category.name != weapon.category:
+            return Response(
+                {"detail": "weapon must be the same category as the character"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
         character.inventory.weapons.add(weapon)
 
         return Response({"sucess": "Weapon added"}, status.HTTP_200_OK)
 
 
 class AddArmorInInventoryView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsCharOwner]
+
     def patch(self, request, char_id, armor_id):
         character = get_object_or_404_with_message(
             Character, id=char_id, msg="Character not found"
@@ -79,6 +93,13 @@ class AddArmorInInventoryView(APIView):
         armor = get_object_or_404_with_message(
             Armor, id=armor_id, msg="Armor not found"
         )
+        self.check_object_permissions(request, character)
+        if character.category.name != armor.category:
+            return Response(
+                {"detail": "armor must be the same category as the character"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
         character.inventory.armors.add(armor)
 
         return Response({"sucess": "Armor added"}, status.HTTP_200_OK)
