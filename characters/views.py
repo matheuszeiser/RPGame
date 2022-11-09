@@ -107,7 +107,7 @@ class AddRemoveWeaponInInventoryView(APIView):
         )
 
 
-class AddArmorInInventoryView(APIView):
+class AddRemoveArmorInInventoryView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsCharOwner]
 
@@ -128,3 +128,28 @@ class AddArmorInInventoryView(APIView):
         character.inventory.armors.add(armor)
 
         return Response({"success": "Armor added"}, status.HTTP_200_OK)
+
+    def delete(self, request: Request, char_id: str, armor_id: str) -> Response:
+        character = get_object_or_404_with_message(
+            Character,
+            id=char_id,
+            msg="Character not found",
+        )
+
+        armor = get_object_or_404_with_message(
+            Armor,
+            id=armor_id,
+            msg="Armor not found",
+        )
+
+        self.check_object_permissions(request, character)
+
+        if character.inventory.armors.contains(armor):
+            character.inventory.armors.remove(armor)
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(
+            {"detail": "Cannot remove armor that is not in your inventory"},
+            status.HTTP_403_FORBIDDEN,
+        )
