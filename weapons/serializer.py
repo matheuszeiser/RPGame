@@ -20,4 +20,5 @@ class WeaponSerializer(serializers.ModelSerializer):
 class WeaponListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Weapon
-        fields = ["id", "name", "damage", "category"]
+        fields = ["id", "name", "damage"]
+

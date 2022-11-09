@@ -20,5 +20,4 @@ class ArmorSerializer(serializers.ModelSerializer):
 class ArmorListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Armor
-
-        fields = ["id", "name", "defense", "category"]
+        fields = ["id", "name", "defense"]

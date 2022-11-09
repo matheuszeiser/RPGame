@@ -79,7 +79,7 @@ class AddWeaponInInventoryView(APIView):
 
         character.inventory.weapons.add(weapon)
 
-        return Response({"sucess": "Weapon added"}, status.HTTP_200_OK)
+        return Response({"success": "Weapon added"}, status.HTTP_200_OK)
 
 
 class AddArmorInInventoryView(APIView):
@@ -102,4 +102,4 @@ class AddArmorInInventoryView(APIView):
 
         character.inventory.armors.add(armor)
 
-        return Response({"sucess": "Armor added"}, status.HTTP_200_OK)
+        return Response({"success": "Armor added"}, status.HTTP_200_OK)

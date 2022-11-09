@@ -66,3 +66,9 @@ class ActivateDeactivateAccountSerializer(serializers.ModelSerializer):
             "is_superuser",
             "date_joined",
         ]
+
+
+class AccountListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ["id", "username"]
