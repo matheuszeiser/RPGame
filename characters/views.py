@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView, Response, status
+from rest_framework.views import APIView, Request, Response, status
 
 from armors.models import Armor
 from attributes.models import Attribute
@@ -59,7 +59,7 @@ class RetrieveUpdateDeleteCharView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Character.objects
 
 
-class AddWeaponInInventoryView(APIView):
+class AddRemoveWeaponInInventoryView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsCharOwner]
 
@@ -80,6 +80,31 @@ class AddWeaponInInventoryView(APIView):
         character.inventory.weapons.add(weapon)
 
         return Response({"success": "Weapon added"}, status.HTTP_200_OK)
+
+    def delete(self, request: Request, char_id: str, weapon_id: str) -> Response:
+        character = get_object_or_404_with_message(
+            Character,
+            id=char_id,
+            msg="Character not found",
+        )
+
+        weapon = get_object_or_404_with_message(
+            Weapon,
+            id=weapon_id,
+            msg="Weapon not found",
+        )
+
+        self.check_object_permissions(request, character)
+
+        if character.inventory.weapons.contains(weapon):
+            character.inventory.weapons.remove(weapon)
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(
+            {"detail": "Cannot remove weapon that is not in your inventory"},
+            status.HTTP_403_FORBIDDEN,
+        )
 
 
 class AddArmorInInventoryView(APIView):
