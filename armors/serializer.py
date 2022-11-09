@@ -14,7 +14,6 @@ class ArmorSerializer(serializers.ModelSerializer):
             "category",
             "inventory",
         ]
-
         read_only_fields = ["inventory"]
 
 

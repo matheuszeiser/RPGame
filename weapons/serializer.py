@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 from rest_framework import serializers
 
 from weapons.models import Weapon
@@ -22,3 +21,4 @@ class WeaponListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Weapon
         fields = ["id", "name", "damage"]
+
