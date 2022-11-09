@@ -7,7 +7,7 @@ from .serializer import ArmorSerializer, ArmorListSerializer
 from armors.serializer import ArmorSerializer
 
 
-class ArmorDetailView(generics.RetrieveUpdateDestroyAPIView):
+class ArmorDetailView(generics.UpdateAPIView, generics.DestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
