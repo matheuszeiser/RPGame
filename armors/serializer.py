@@ -14,5 +14,11 @@ class ArmorSerializer(serializers.ModelSerializer):
             "category",
             "inventory",
         ]
-
         read_only_fields = ["inventory"]
+
+
+class ArmorListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Armor
+
+        fields = ["id", "name", "defense", "category"]
