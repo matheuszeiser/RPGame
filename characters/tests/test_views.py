@@ -477,6 +477,112 @@ class CharacterInventoryWeaponViewTests(APITestCase):
             {"detail": "Authentication credentials were not provided."},
         )
 
+    def test_user_cannot_add_unexisting_weapon_to_repository(self):
+        """
+        Verifica se usuário não pode adicionar arma inexistente ao inventário do personagem
+        """
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.common_user_token.key}"
+        )
+
+        response = self.client.patch(
+            f"{self.BASE_URL}{self.common_character.id}/weapon/c2b07179-ef9d-4366-ab13-7add2b8b8bb7/"
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+        self.assertEqual(response.data, {"detail": "Weapon not found"})
+
+    def test_user_cannot_add_weapon_to_unexisting_inventory(self):
+        """
+        Verifica se usuário não pode adicionar arma a inventário de personagem inexistente
+        """
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.common_user_token.key}"
+        )
+
+        response = self.client.patch(
+            f"{self.BASE_URL}c2b07179-ef9d-4366-ab13-7add2b8b8bb7/weapon/{self.warrior_weapon.id}/"
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+        self.assertEqual(response.data, {"detail": "Character not found"})
+
+    def test_user_can_remove_weapon_from_inventory(self):
+        """
+        Verifica se o usuário dono do personagem pode remover arma do seu inventaŕio
+        """
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.common_user_token.key}"
+        )
+
+        self.client.patch(
+            f"{self.BASE_URL}{self.common_character.id}/weapon/{self.warrior_weapon.id}/"
+        )
+
+        response = self.client.delete(
+            f"{self.BASE_URL}{self.common_character.id}/weapon/{self.warrior_weapon.id}/"
+        )
+
+        self.assertEqual(response.status_code, 204)
+
+    def test_user_cannot_remove_weapon_that_is_not_in_inventory(self):
+        """
+        Verifica se o usuário dono do personagem não pode remover arma
+        que não está em seu inventaŕio
+        """
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.common_user_token.key}"
+        )
+
+        response = self.client.delete(
+            f"{self.BASE_URL}{self.common_character.id}/weapon/{self.warrior_weapon.id}/"
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+        self.assertEqual(
+            response.data,
+            {"detail": "Cannot remove weapon that is not in your inventory"},
+        )
+
+    def test_user_cannot_remove_weapon_from_inventory_of_character_they_dont_own(self):
+        """
+        Verifica se o usuário não dono do personagem não pode remover
+        arma do inventaŕio do personagem
+        """
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.admin_token.key}")
+
+        response = self.client.delete(
+            f"{self.BASE_URL}{self.common_character.id}/weapon/{self.warrior_weapon.id}/"
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+        self.assertEqual(
+            response.data,
+            {"detail": "You do not have permission to perform this action."},
+        )
+
+    def test_unauthenticated_user_cannot_remove_weapon_from_inventory_of_character(
+        self,
+    ):
+        """
+        Verifica se o usuário não autenticado não pode remover
+        arma do inventaŕio do personagem
+        """
+        response = self.client.delete(
+            f"{self.BASE_URL}{self.common_character.id}/weapon/{self.warrior_weapon.id}/"
+        )
+
+        self.assertEqual(response.status_code, 401)
+
+        self.assertEqual(
+            response.data,
+            {"detail": "Authentication credentials were not provided."},
+        )
+
 
 class CharacterInventoryArmorViewTests(APITestCase):
     @classmethod
@@ -606,6 +712,112 @@ class CharacterInventoryArmorViewTests(APITestCase):
         armadura ao inventaŕio do personagem
         """
         response = self.client.patch(
+            f"{self.BASE_URL}{self.common_character.id}/armor/{self.warrior_armor.id}/"
+        )
+
+        self.assertEqual(response.status_code, 401)
+
+        self.assertEqual(
+            response.data,
+            {"detail": "Authentication credentials were not provided."},
+        )
+
+    def test_user_cannot_add_unexisting_armor_to_repository(self):
+        """
+        Verifica se usuário não pode adicionar armadura inexistente ao inventário do personagem
+        """
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.common_user_token.key}"
+        )
+
+        response = self.client.patch(
+            f"{self.BASE_URL}{self.common_character.id}/armor/c2b07179-ef9d-4366-ab13-7add2b8b8bb7/"
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+        self.assertEqual(response.data, {"detail": "Armor not found"})
+
+    def test_user_cannot_add_armor_to_unexisting_inventory(self):
+        """
+        Verifica se usuário não pode adicionar armadura a inventário de personagem inexistente
+        """
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.common_user_token.key}"
+        )
+
+        response = self.client.patch(
+            f"{self.BASE_URL}c2b07179-ef9d-4366-ab13-7add2b8b8bb7/armor/{self.warrior_armor.id}/"
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+        self.assertEqual(response.data, {"detail": "Character not found"})
+
+    def test_user_can_remove_armor_from_inventory(self):
+        """
+        Verifica se o usuário dono do personagem pode remover armadura do seu inventaŕio
+        """
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.common_user_token.key}"
+        )
+
+        self.client.patch(
+            f"{self.BASE_URL}{self.common_character.id}/armor/{self.warrior_armor.id}/"
+        )
+
+        response = self.client.delete(
+            f"{self.BASE_URL}{self.common_character.id}/armor/{self.warrior_armor.id}/"
+        )
+
+        self.assertEqual(response.status_code, 204)
+
+    def test_user_cannot_remove_armor_that_is_not_in_inventory(self):
+        """
+        Verifica se o usuário dono do personagem não pode remover armadura
+        que não está em seu inventaŕio
+        """
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.common_user_token.key}"
+        )
+
+        response = self.client.delete(
+            f"{self.BASE_URL}{self.common_character.id}/armor/{self.warrior_armor.id}/"
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+        self.assertEqual(
+            response.data,
+            {"detail": "Cannot remove armor that is not in your inventory"},
+        )
+
+    def test_user_cannot_remove_armor_from_inventory_of_character_they_dont_own(self):
+        """
+        Verifica se o usuário não dono do personagem não pode remover
+        armadura do inventaŕio do personagem
+        """
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.admin_token.key}")
+
+        response = self.client.delete(
+            f"{self.BASE_URL}{self.common_character.id}/armor/{self.warrior_armor.id}/"
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+        self.assertEqual(
+            response.data,
+            {"detail": "You do not have permission to perform this action."},
+        )
+
+    def test_unauthenticated_user_cannot_remove_armor_from_inventory_of_character(
+        self,
+    ):
+        """
+        Verifica se o usuário não autenticado não pode remover
+        armadura do inventaŕio do personagem
+        """
+        response = self.client.delete(
             f"{self.BASE_URL}{self.common_character.id}/armor/{self.warrior_armor.id}/"
         )
 
